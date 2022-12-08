@@ -1,4 +1,4 @@
-name: deploy-react-app-to-s3
+name: deploy-react-app-to-aws
 author: Arky Asmal
 description: Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for it.
 inputs:
