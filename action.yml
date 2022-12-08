@@ -21,7 +21,6 @@ on:
         type: string
         required: true
       react_app_secrets:
-        type: string
         default:  "{}"
         required: false
       node_verison: 
