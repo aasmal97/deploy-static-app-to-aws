@@ -5,6 +5,7 @@ Below is an example
 ```
 name: Deploy To AWS
 uses: action/deploy-react-app-to-aws
+secrets: inherit
 with:
   aws_region: us-east-1
   aws_access_key_id: ${{ secrets.access_key_id }}

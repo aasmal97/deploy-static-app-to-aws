@@ -13,15 +13,18 @@ inputs:
     required: true
   cloudfront_distribution_id:
     type: string
+    default: '1'
     required: false
   bucket_name:
     type: string
     required: true
   deployment_url:
     type: string
+    default: www.example.com
     required: false
   environment_name:
     type: string
+    default: production
     required: false
 jobs:
   Build-App-And-Upload-to-S3:
