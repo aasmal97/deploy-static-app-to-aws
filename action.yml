@@ -40,20 +40,19 @@ runs:
       run: aasmal97/create-react-app-env@1.0.0
       with:
         REACT_APP_SECRETS: ${{ github.event.inputs.react_app_secrets }}
-    - name: Build static site
-      run: |
-        npm install
-        npm run build
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
-        aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
-        aws-region: ${{ github.event.inputs.aws_region }} # Use your bucket region here
-    - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./build s3://${{ github.event.inputs.bucket_name }} --delete
-  
-    - name: Invalidate Cloudfront cache
+    # - name: Build static site
+    #   run: |
+    #     npm install
+    #     npm run build
+    # - name: Configure AWS Credentials
+    #   uses: aws-actions/configure-aws-credentials@v1
+    #   with:
+    #     aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
+    #     aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
+    #     aws-region: ${{ github.event.inputs.aws_region }} # Use your bucket region here
+    # - name: Deploy static site to S3 bucket
+    #   run: aws s3 sync ./build s3://${{ github.event.inputs.bucket_name }} --delete
+    # - name: Invalidate Cloudfront cache
       uses: chetan/invalidate-cloudfront-action@v2
       continue-on-error: true
       env:
