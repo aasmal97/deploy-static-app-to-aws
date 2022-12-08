@@ -1,4 +1,4 @@
-name: action/deploy-react-app-to-s3
+name: deploy-react-app-to-s3
 author: Arky Asmal
 description: Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for it.
 inputs:
@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Extract React App environment variables
-        run: action/create-react-app-env
+        run: aasmal97/create-react-app-env
         with:
           REACT_APP_SECRETS: ${{toJson(secrets)}}
       - name: Build static site
