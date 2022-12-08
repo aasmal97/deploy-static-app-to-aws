@@ -4,7 +4,7 @@ Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache f
 Below is an example
 ```
 name: Deploy To AWS
-uses: action/deploy-react-app-to-aws
+uses: action/deploy-react-app-to-s3
 with:
   aws_region: us-east-1
   aws_access_key_id: ${{ secrets.access_key_id }}
