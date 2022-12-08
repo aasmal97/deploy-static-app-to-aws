@@ -26,6 +26,10 @@ inputs:
     type: string
     default: production
     required: false
+  react_app_secrets:
+    type: string
+    default: '{}'
+    required: false
 jobs:
   Build-App-And-Upload-to-S3:
     environment:
@@ -44,7 +48,7 @@ jobs:
       - name: Extract React App environment variables
         run: aasmal97/create-react-app-env@1.0.0
         with:
-          REACT_APP_SECRETS: ${{toJson(secrets)}}
+          REACT_APP_SECRETS: ${{inputs.react_app_secrets}}
       - name: Build static site
         run: |
           npm install
