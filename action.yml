@@ -53,6 +53,7 @@ runs:
         aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
         aws-region: ${{ inputs.aws_region }} # Use your bucket region here
     - name: Deploy static site to S3 bucket
+      shell: bash
       run: aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
     - name: Invalidate Cloudfront cache
       uses: chetan/invalidate-cloudfront-action@v2
