@@ -5,7 +5,7 @@ Below is an example
 ```
 name: Deploy To AWS
 secrets: inherit
-uses: action/deploy-react-app-to-s3
+uses: aasmal97/deploy-react-app-to-s3
 with:
   aws_region: us-east-1
   aws_access_key_id: ${{ secrets.access_key_id }}
