@@ -26,9 +26,6 @@ on:
         required: false
 runs:
   using: "composite"
-  strategy:
-    matrix:
-      node-version: [16.x]
   steps:
     - uses: actions/checkout@v1
   # jobs:
