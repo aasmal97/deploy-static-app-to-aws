@@ -12,6 +12,8 @@ with:
   cloudfront_distribution_id: ${{ secrets.distribution_id }}
   bucket_name: ${{ secrets.bucket_name }}
   react_app_secrets: ${{toJson(secrets)}}
+  node_verison: 16
+  path_to_app: ./test-app
 ```
 # Inputs:
  - `aws_region`: The region your cloudfront distribution and s3 bucket are initated/setup in.
@@ -20,3 +22,5 @@ with:
  - `cloudfront_distribution_id`: The cloudfront distribution id that needs to be invalidated since it is hosting the S3 bucket
  - `bucket_name`: the s3 bucket name that the react app will be deployed to
  - `react_app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
+ - `node_verison`: Node JS version that the app will run in. By default this is set to 16
+ - `path_to_app`: This is the relative path from your root, where the app's `package.json` config file is located.
