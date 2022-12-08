@@ -32,11 +32,11 @@ runs:
     - name: Setup Node
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ github.event.inputs.node_version }}
+        node-version: ${{ inputs.node_version }}
     - name: Extract React App environment variables
       uses: aasmal97/create-react-app-env@1.1.0
       with:
-        REACT_APP_SECRETS: ${{ github.event.inputs.react_app_secrets }}
+        REACT_APP_SECRETS: ${{ inputs.react_app_secrets }}
     # - name: Build static site
     #   run: |
     #     npm install
