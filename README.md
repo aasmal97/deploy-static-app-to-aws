@@ -12,8 +12,6 @@ with:
   aws_secret_access_key: ${{ secrets.secret_key }}
   cloudfront_distribution_id: ${{ secrets.distribution_id }}
   bucket_name: ${{ secrets.bucket_name }}
-  deployment_url: www.example.com
-  environment_name: production
   react_app_secrets: ${{toJson(secrets)}}
 ```
 # Inputs:
@@ -22,6 +20,4 @@ with:
  - `aws_secret_access_key`: An AWS user's or role's secret key. This is needed for AWS authentication.
  - `cloudfront_distribution_id`: The cloudfront distribution id that needs to be invalidated since it is hosting the S3 bucket
  - `bucket_name`: the s3 bucket name that the react app will be deployed to
- - `deployment_url`: The url the deployment can be found at
- - `environment_name`: The custom environment that this action is running in
  - `react_app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
