@@ -1,6 +1,6 @@
 name: action/deploy-react-app-to-s3
 author: Arky Asmal
-description: Deploys a React App to an S3 bucket, and then invalidates the cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed
+description: Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for it.
 inputs:
   aws_region:
     type: string
