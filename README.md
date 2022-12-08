@@ -28,5 +28,5 @@ with:
 If you are using `create-react-app` to create and package your react application, then there is no need to read further as `create-react-app` builds the react app files in its proper configuration. However, if you are using your own custom packaging scripts, ensure that the following requirements are met.
 - Your build script can be called by using `npm run build` 
 - Your build script outputs a folder named `build` where the react app's files are compiled to. 
-- Note: All files in your `build` folder will be uploaded to you s3 bucket.
+- Note: All files in your `build` folder will be uploaded to your s3 bucket.
 
