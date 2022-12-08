@@ -1,40 +1,42 @@
 name: deploy-react-app-to-aws
 author: Arky Asmal
 description: Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for it.
-inputs:
-  aws_region:
-    type: string
-    required: true
-  aws_access_key_id:
-    type: string
-    required: true
-  aws_secret_access_key:
-    type: string
-    required: true
-  cloudfront_distribution_id:
-    type: string
-    default: '1'
-    required: false
-  bucket_name:
-    type: string
-    required: true
-  deployment_url:
-    type: string
-    default: www.example.com
-    required: false
-  environment_name:
-    type: string
-    default: production
-    required: false
-  react_app_secrets:
-    type: string
-    default: '{}'
-    required: false
+on:
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        type: string
+        required: true
+      aws_access_key_id:
+        type: string
+        required: true
+      aws_secret_access_key:
+        type: string
+        required: true
+      cloudfront_distribution_id:
+        type: string
+        default: '1'
+        required: false
+      bucket_name:
+        type: string
+        required: true
+      deployment_url:
+        type: string
+        default: www.example.com
+        required: false
+      environment_name:
+        type: string
+        default: production
+        required: false
+      react_app_secrets:
+        type: string
+        default: '{}'
+        required: false
 jobs:
   Build-App-And-Upload-to-S3:
     environment:
-      name: ${{ inputs.environment_name }}
-      url: ${{ inputs.deployment_url }}
+      name: ${{ github.event.inputs.environment_name }}
+      url: ${{ github.event.inputs.deployment_url }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -48,7 +50,7 @@ jobs:
       - name: Extract React App environment variables
         run: aasmal97/create-react-app-env@1.0.0
         with:
-          REACT_APP_SECRETS: ${{inputs.react_app_secrets}}
+          REACT_APP_SECRETS: ${{github.event.inputs.react_app_secrets}}
       - name: Build static site
         run: |
           npm install
@@ -56,11 +58,11 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ inputs.aws_access_key_id }}
-          aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
-          aws-region: ${{ inputs.aws_region }} # Use your bucket region here
+          aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
+          aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
+          aws-region: ${{ github.event.inputs.aws_region }} # Use your bucket region here
       - name: Deploy static site to S3 bucket
-        run: aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
+        run: aws s3 sync ./build s3://${{ github.event.inputs.bucket_name }} --delete
   Invalidate-Cloudfront Cache:
     needs: Build-App-And-Upload-to-S3
     continue-on-error: true
@@ -69,8 +71,8 @@ jobs:
       - name: Invalidate Cloudfront cache
         uses: chetan/invalidate-cloudfront-action@v2
         env:
-          DISTRIBUTION: ${{ inputs.cloudfront_distribution_id }}
+          DISTRIBUTION: ${{ github.event.inputs.cloudfront_distribution_id }}
           PATHS: "/*"
-          AWS_REGION: ${{ inputs.aws_region }}
-          AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
-          AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+          AWS_REGION: ${{ github.event.inputs.aws_region }}
+          AWS_ACCESS_KEY_ID: ${{ github.event.inputs.aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY: ${{ github.event.inputs.aws_secret_access_key }}
