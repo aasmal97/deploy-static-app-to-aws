@@ -54,7 +54,9 @@ runs:
         aws-region: ${{ inputs.aws_region }} # Use your bucket region here
     - name: Deploy static site to S3 bucket
       shell: bash
-      run: aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
+      run: |
+        cd ${{ inputs.path_to_app }}
+        aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
     - name: Invalidate Cloudfront cache
       uses: chetan/invalidate-cloudfront-action@v2
       continue-on-error: true
