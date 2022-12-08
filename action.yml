@@ -20,23 +20,12 @@ on:
       bucket_name:
         type: string
         required: true
-      deployment_url:
-        type: string
-        default: www.example.com
-        required: false
-      environment_name:
-        type: string
-        default: production
-        required: false
       react_app_secrets:
         type: string
         default: '{}'
         required: false
 jobs:
   Build-App-And-Upload-to-S3:
-    environment:
-      name: ${{ github.event.inputs.environment_name }}
-      url: ${{ github.event.inputs.deployment_url }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
