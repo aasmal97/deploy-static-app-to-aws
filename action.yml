@@ -1,32 +1,30 @@
 name: deploy-react-app-to-aws
 author: Arky Asmal
 description: Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for it.
-on:
-  workflow_dispatch:
-    inputs:
-      aws_region:
-        type: string
-        required: true
-      aws_access_key_id:
-        type: string
-        required: true
-      aws_secret_access_key:
-        type: string
-        required: true
-      cloudfront_distribution_id:
-        type: string
-        default: '1'
-        required: false
-      bucket_name:
-        type: string
-        required: true
-      react_app_secrets:
-        default:  "{}"
-        required: false
-      node_verison: 
-        type: string
-        default: 16
-        required: false
+inputs:
+  aws_region:
+    type: string
+    required: true
+  aws_access_key_id:
+    type: string
+    required: true
+  aws_secret_access_key:
+    type: string
+    required: true
+  cloudfront_distribution_id:
+    type: string
+    default: '1'
+    required: false
+  bucket_name:
+    type: string
+    required: true
+  react_app_secrets:
+    default:  "{}"
+    required: false
+  node_verison: 
+    type: string
+    default: 16
+    required: false
 runs:
   using: "composite"
   steps:
