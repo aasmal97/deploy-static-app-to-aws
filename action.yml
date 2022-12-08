@@ -24,44 +24,51 @@ on:
         type: string
         default: '{}'
         required: false
-jobs:
-  Build-App-And-Upload-to-S3:
-    runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     node-version: [16.x]
-    steps:
-      - uses: actions/checkout@v1
-      # - name: Setup Node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
-  #     - name: Extract React App environment variables
-  #       run: aasmal97/create-react-app-env@1.0.0
-  #       with:
-  #         REACT_APP_SECRETS: ${{ github.event.inputs.react_app_secrets }}
-  #     - name: Build static site
-  #       run: |
-  #         npm install
-  #         npm run build
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
-  #         aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
-  #         aws-region: ${{ github.event.inputs.aws_region }} # Use your bucket region here
-  #     - name: Deploy static site to S3 bucket
-  #       run: aws s3 sync ./build s3://${{ github.event.inputs.bucket_name }} --delete
-  # Invalidate-Cloudfront Cache:
-  #   needs: Build-App-And-Upload-to-S3
-  #   continue-on-error: true
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Invalidate Cloudfront cache
-  #       uses: chetan/invalidate-cloudfront-action@v2
-  #       env:
-  #         DISTRIBUTION: ${{ github.event.inputs.cloudfront_distribution_id }}
-  #         PATHS: "/*"
-  #         AWS_REGION: ${{ github.event.inputs.aws_region }}
-  #         AWS_ACCESS_KEY_ID: ${{ github.event.inputs.aws_access_key_id }}
-  #         AWS_SECRET_ACCESS_KEY: ${{ github.event.inputs.aws_secret_access_key }}
+runs:
+  using: "composite"
+  strategy:
+    matrix:
+      node-version: [16.x]
+  steps:
+    - uses: actions/checkout@v1
+  # jobs:
+  #   Build-App-And-Upload-to-S3:
+  #     runs-on: ubuntu-latest
+  #     strategy:
+  #       matrix:
+  #         node-version: [16.x]
+  #     steps:
+  #       - uses: actions/checkout@v1
+  #       - name: Setup Node
+  #         uses: actions/setup-node@v2
+  #         with:
+  #           node-version: ${{ matrix.node-version }}
+  #       - name: Extract React App environment variables
+  #         run: aasmal97/create-react-app-env@1.0.0
+  #         with:
+  #           REACT_APP_SECRETS: ${{ github.event.inputs.react_app_secrets }}
+  #       - name: Build static site
+  #         run: |
+  #           npm install
+  #           npm run build
+  #       - name: Configure AWS Credentials
+  #         uses: aws-actions/configure-aws-credentials@v1
+  #         with:
+  #           aws-access-key-id: ${{ github.event.inputs.aws_access_key_id }}
+  #           aws-secret-access-key: ${{ github.event.inputs.aws_secret_access_key }}
+  #           aws-region: ${{ github.event.inputs.aws_region }} # Use your bucket region here
+  #       - name: Deploy static site to S3 bucket
+  #         run: aws s3 sync ./build s3://${{ github.event.inputs.bucket_name }} --delete
+  #   Invalidate-Cloudfront Cache:
+  #     needs: Build-App-And-Upload-to-S3
+  #     continue-on-error: true
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Invalidate Cloudfront cache
+  #         uses: chetan/invalidate-cloudfront-action@v2
+  #         env:
+  #           DISTRIBUTION: ${{ github.event.inputs.cloudfront_distribution_id }}
+  #           PATHS: "/*"
+  #           AWS_REGION: ${{ github.event.inputs.aws_region }}
+  #           AWS_ACCESS_KEY_ID: ${{ github.event.inputs.aws_access_key_id }}
+  #           AWS_SECRET_ACCESS_KEY: ${{ github.event.inputs.aws_secret_access_key }}
