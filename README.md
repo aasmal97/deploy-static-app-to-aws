@@ -24,3 +24,9 @@ with:
  - `react_app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
  - `node_verison`: Node JS version that the app will run in. By default this is set to 16
  - `path_to_app`: This is the relative path from your root, where the app's `package.json` config file is located.
+# Caveats: 
+If you are using `create-react-app` to create and package your react application, then there is no need to read further as `create-react-app` builds the react app files in its proper configuration. However, if you are using your own custom packaging scripts, ensure that the following requirements are met.
+- Your build script can be called by using `npm run build` 
+- Your build script outputs a folder named `build` where the react app's files are compiled to. 
+- Note: All files in your `build` folder will be uploaded to you s3 bucket.
+
