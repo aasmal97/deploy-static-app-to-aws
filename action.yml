@@ -38,10 +38,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: |
-          npm install mv
-          npm install dotenv
       - name: Extract React App environment variables
         run: action/create-react-app-env
         with:
@@ -53,8 +49,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.aws_access_key_id }}
-          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+          aws-access-key-id: ${{ inputs.aws_access_key_id }}
+          aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
           aws-region: ${{ inputs.aws_region }} # Use your bucket region here
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
@@ -69,5 +65,5 @@ jobs:
           DISTRIBUTION: ${{ inputs.cloudfront_distribution_id }}
           PATHS: "/*"
           AWS_REGION: ${{ inputs.aws_region }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key_id }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_access_key }}
+          AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
