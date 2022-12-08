@@ -22,7 +22,7 @@ on:
         required: true
       react_app_secrets:
         type: string
-        default: '{}'
+        default:  "{}"
         required: false
       node_verison: 
         type: string
@@ -37,7 +37,7 @@ runs:
       with:
         node-version: ${{ github.event.inputs.node_version }}
     - name: Extract React App environment variables
-      uses: aasmal97/create-react-app-env@1.0.0
+      uses: aasmal97/create-react-app-env@1.1.0
       with:
         REACT_APP_SECRETS: ${{ github.event.inputs.react_app_secrets }}
     # - name: Build static site
