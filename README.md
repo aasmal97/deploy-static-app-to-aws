@@ -4,7 +4,6 @@ Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache f
 Below is an example
 ```
 name: Deploy To AWS
-secrets: inherit
 uses: aasmal97/deploy-react-app-to-aws
 with:
   aws_region: us-east-1
