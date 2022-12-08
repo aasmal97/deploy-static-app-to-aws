@@ -53,11 +53,11 @@ runs:
     # - name: Deploy static site to S3 bucket
     #   run: aws s3 sync ./build s3://${{ github.event.inputs.bucket_name }} --delete
     # - name: Invalidate Cloudfront cache
-      uses: chetan/invalidate-cloudfront-action@v2
-      continue-on-error: true
-      env:
-        DISTRIBUTION: ${{ github.event.inputs.cloudfront_distribution_id }}
-        PATHS: "/*"
-        AWS_REGION: ${{ github.event.inputs.aws_region }}
-        AWS_ACCESS_KEY_ID: ${{ github.event.inputs.aws_access_key_id }}
-        AWS_SECRET_ACCESS_KEY: ${{ github.event.inputs.aws_secret_access_key }}
+      # uses: chetan/invalidate-cloudfront-action@v2
+      # continue-on-error: true
+      # env:
+      #   DISTRIBUTION: ${{ github.event.inputs.cloudfront_distribution_id }}
+      #   PATHS: "/*"
+      #   AWS_REGION: ${{ github.event.inputs.aws_region }}
+      #   AWS_ACCESS_KEY_ID: ${{ github.event.inputs.aws_access_key_id }}
+      #   AWS_SECRET_ACCESS_KEY: ${{ github.event.inputs.aws_secret_access_key }}
