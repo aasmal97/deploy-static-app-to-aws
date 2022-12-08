@@ -14,6 +14,7 @@ with:
   bucket_name: ${{ secrets.bucket_name }}
   deployment_url: www.example.com
   environment_name: production
+  react_app_secrets: ${{toJson(secrets)}}
 ```
 # Inputs:
  - `aws_region`: The region your cloudfront distribution and s3 bucket are initated/setup in.
@@ -23,3 +24,4 @@ with:
  - `bucket_name`: the s3 bucket name that the react app will be deployed to
  - `deployment_url`: The url the deployment can be found at
  - `environment_name`: The custom environment that this action is running in
+ - `react_app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
