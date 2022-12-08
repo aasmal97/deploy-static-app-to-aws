@@ -1,0 +1,73 @@
+name: action/deploy-react-app-to-s3
+author: Arky Asmal
+description: Deploys a React App to an S3 bucket, and then invalidates the cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed
+inputs:
+  aws_region:
+    type: string
+    required: true
+  aws_access_key_id:
+    type: string
+    required: true
+  aws_secret_access_key:
+    type: string
+    required: true
+  cloudfront_distribution_id:
+    type: string
+    required: false
+  bucket_name:
+    type: string
+    required: true
+  deployment_url:
+    type: string
+    required: false
+  environment_name:
+    type: string
+    required: false
+jobs:
+  Build-App-And-Upload-to-S3:
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ inputs.deployment_url }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: |
+          npm install mv
+          npm install dotenv
+      - name: Extract React App environment variables
+        run: action/create-react-app-env
+        with:
+          REACT_APP_SECRETS: ${{toJson(secrets)}}
+      - name: Build static site
+        run: |
+          npm install
+          npm run build
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.aws_access_key_id }}
+          aws-secret-access-key: ${{ secrets.aws_secret_access_key }}
+          aws-region: ${{ inputs.aws_region }} # Use your bucket region here
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
+  Invalidate-Cloudfront Cache:
+    needs: Build-App-And-Upload-to-S3
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invalidate Cloudfront cache
+        uses: chetan/invalidate-cloudfront-action@v2
+        env:
+          DISTRIBUTION: ${{ inputs.cloudfront_distribution_id }}
+          PATHS: "/*"
+          AWS_REGION: ${{ inputs.aws_region }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.aws_secret_access_key }}
