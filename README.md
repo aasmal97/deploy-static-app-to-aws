@@ -1,5 +1,5 @@
 # Deploy-React-App-To-AWS
-Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed
+Deploys a Client-Side Rendered React App to an S3 bucket, and then invalidates the Cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed
 # How to Use: 
 Below is an example
 ```
