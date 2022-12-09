@@ -30,3 +30,4 @@ If you are using `create-react-app` to create and package your react application
 - Your build script outputs a folder named `build` where the react app's files are compiled to. 
 - Note: All files in your `build` folder will be uploaded to your s3 bucket.
 
+Note: This deploys a client-side rendered app to aws. To deploy a Server side rendered app to AWS Amplify, you must use another workflow.
