@@ -4,7 +4,7 @@ Deploys a Client-Side Rendered React App to an S3 bucket, and then invalidates t
 Below is an example
 ```
 name: Deploy To AWS
-uses: aasmal97/deploy-react-app-to-aws
+uses: aasmal97/deploy-react-app-to-aws@1.3.0
 with:
   aws_region: us-east-1
   aws_access_key_id: ${{ secrets.access_key_id }}
