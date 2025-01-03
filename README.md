@@ -8,6 +8,10 @@ This action is useful to deploy:
 - [Staticly Generated Sites/Applications using SSG](https://en.wikipedia.org/wiki/Static_site_generator)
 - [Simple Static HTML pages](https://en.wikipedia.org/wiki/Static_web_page)
 
+
+<br/>
+<a href="https://www.buymeacoffee.com/arkyasmal" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 # How to Use:
 
 Below is an example
@@ -24,6 +28,7 @@ with:
   app_secrets: ${{toJson(secrets)}}
   node_verison: 20
   path_to_app: ./
+  env_file_name: local
   secrets_prefix: "REACT_APP.*"
 ```
 
