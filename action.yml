@@ -1,6 +1,9 @@
-name: deploy-react-app-to-aws
+name: deploy-static-app-to-aws
 author: Arky Asmal
-description: Deploys a React App to an S3 bucket, and then invalidates the Cloudfront cache for it.
+description: Deploys a static app (SPA, SSG or static pages) to an S3 bucket, and then invalidates the Cloudfront cache for it.
+branding:
+  icon: upload-cloud
+  color: blue
 inputs:
   aws_region:
     type: string
@@ -13,33 +16,55 @@ inputs:
     required: true
   cloudfront_distribution_id:
     type: string
-    default: '1'
-    required: false
+    required: true
   bucket_name:
     type: string
     required: true
-  react_app_secrets:
-    default:  "{}"
+  app_secrets:
+    default: "{}"
     required: false
-  node_verison: 
+  node_verison:
     type: string
-    default: 16
+    default: 20
     required: false
-  path_to_app: 
+  path_to_app:
     type: string
-    required: true
+    default: "./"
+    required: false
+  build_dir:
+    type: string
+    default: "./build"
+    required: false
+  secrets_prefix:
+    type: string
+    default: ".*"
+    required: false
+  env_file_name:
+    type: string
+    default: ".env"
+    required: false
+  destination_path:
+    type: string
+    required: false
+  working_directory_path:
+    type: string
+    required: false
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Setup Node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node_version }}
     - name: Extract React App environment variables
-      uses: aasmal97/create-react-app-env@2.0.0
+      uses: aasmal97/create-env-file@v3.0.0
       with:
-        REACT_APP_SECRETS: ${{ inputs.react_app_secrets }}
+        ENV_FILE_NAME: ${{ inputs.env_file_name }}
+        APP_SECRETS: ${{ inputs.app_secrets }}
+        DESTINATION_PATH: ${{ inputs.destination_path }}
+        PREFIX_FILTER: ${{ inputs.secrets_prefix }}
+        WORKING_DIRECTORY_PATH: ${{ inputs.working_directory_path }}
     - name: Build static site
       shell: bash
       run: |
@@ -47,7 +72,7 @@ runs:
         npm install
         npm run build
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         aws-access-key-id: ${{ inputs.aws_access_key_id }}
         aws-secret-access-key: ${{ inputs.aws_secret_access_key }}
@@ -56,7 +81,7 @@ runs:
       shell: bash
       run: |
         cd ${{ inputs.path_to_app }}
-        aws s3 sync ./build s3://${{ inputs.bucket_name }} --delete
+        aws s3 sync ${{ inputs.build_dir }} s3://${{ inputs.bucket_name }} --delete
     - name: Invalidate Cloudfront cache
       uses: chetan/invalidate-cloudfront-action@v2
       continue-on-error: true

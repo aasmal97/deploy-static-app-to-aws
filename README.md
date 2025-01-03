@@ -1,33 +1,53 @@
-# Deploy-React-App-To-AWS
-Deploys a Client-Side Rendered React App to an S3 bucket, and then invalidates the Cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed
-# How to Use: 
+# Deploy Static Site To AWS
+
+Deploys a static app (SPA, SSG or static pages) to an S3 bucket and then invalidates the Cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed.
+
+This action is useful to deploy:
+
+- [Single Page Applications (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
+- [Staticly Generated Sites/Applications using SSG](https://en.wikipedia.org/wiki/Static_site_generator)
+- [Simple Static HTML pages](https://en.wikipedia.org/wiki/Static_web_page)
+
+# How to Use:
+
 Below is an example
-```
+
+```yaml
 name: Deploy To AWS
-uses: aasmal97/deploy-react-app-to-aws@1.3.0
+uses: aasmal97/deploy-static-app-to-aws@2.0.0
 with:
   aws_region: us-east-1
   aws_access_key_id: ${{ secrets.access_key_id }}
   aws_secret_access_key: ${{ secrets.secret_key }}
   cloudfront_distribution_id: ${{ secrets.distribution_id }}
   bucket_name: ${{ secrets.bucket_name }}
-  react_app_secrets: ${{toJson(secrets)}}
-  node_verison: 16
-  path_to_app: ./test-app
+  app_secrets: ${{toJson(secrets)}}
+  node_verison: 20
+  path_to_app: ./
+  secrets_prefix: "REACT_APP.*"
 ```
+
 # Inputs:
- - `aws_region`: The region your cloudfront distribution and s3 bucket are initated/setup in.
- - `aws_access_key_id`: An AWS user's or role's access key id. This is needed for AWS authentication.
- - `aws_secret_access_key`: An AWS user's or role's secret key. This is needed for AWS authentication.
- - `cloudfront_distribution_id`: The cloudfront distribution id that needs to be invalidated since it is hosting the S3 bucket
- - `bucket_name`: the s3 bucket name that the react app will be deployed to
- - `react_app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
- - `node_verison`: Node JS version that the app will run in. By default this is set to 16
- - `path_to_app`: This is the relative path from your root, where the app's `package.json` config file is located.
-# Caveats: 
-If you are using `create-react-app` to create and package your react application, then there is no need to read further as `create-react-app` builds the react app files in its proper configuration. However, if you are using your own custom packaging scripts, ensure that the following requirements are met.
-- Your build script can be called by using `npm run build` 
-- Your build script outputs a folder named `build` where the react app's files are compiled to. 
+
+- `aws_region`: The region your cloudfront distribution and s3 bucket are initated/setup in.
+- `aws_access_key_id`: An AWS user's or role's access key id. This is needed for AWS authentication.
+- `aws_secret_access_key`: An AWS user's or role's secret key. This is needed for AWS authentication.
+- `cloudfront_distribution_id`: The cloudfront distribution id that needs to be invalidated since it is hosting the S3 bucket
+- `bucket_name`: the S3 bucket name that the react app will be deployed to
+- `app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
+- `node_verison`: Node JS version that the app will run in. By default this is set to 16
+- `path_to_app`: This is the relative path from your root, where the app's `package.json` config file is located.
+- `build_dir`: The relative path from the `CURRENT WORKING DIRECTORY (cwd)`, to the build directory. This directory will be uploaded into AWS S3. By default it is `./build`
+- `secrets_prefix`: A regex pattern applied to environment variable names, that determines if they are loaded into a `.env` file or not
+- `env_file_name`: The name of the generated `.env` file that will will be generated prior to initiating the build command. By default, it is `.env`
+- `destination_path`: The **ABSOLUTE PATH**, that you want the .env file to be generated in. By default, it is the **nearest** package.json to the current working directory.
+- `working_directory_path`: The **ABSOLUTE PATH** of a custom working directory, for the generation of secrets. By default this is the current working directory. If changed, and `destination_path` is NOT defined, the `destination_path` will be resolved by finding the **nearest** package.json to this working directory.
+
+# Requirements:
+Ensure that the following requirements are met.
+
+- Your build script can be called by using `npm run build`
+- Your build script outputs a folder named `build` where the react app's files are compiled to.
 - Note: All files in your `build` folder will be uploaded to your s3 bucket.
 
-Note: This deploys a client-side rendered app to aws. To deploy a Server side rendered app to AWS Amplify, you must use another workflow.
+Note: This action only deploy STATIC sites to AWS. For server-side rendered (SSR) applications, a different workflow is needed, as Cloudfront is a live server environment. For these applications, tools like Render, AWS Amplify, or AWS EC2 are good alternatives
