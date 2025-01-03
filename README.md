@@ -51,7 +51,7 @@ with:
 Ensure that the following requirements are met.
 
 - Your build script can be called by using `npm run build`
-- Your build script outputs a folder named `build` where the react app's files are compiled to.
-- Note: All files in your `build` folder will be uploaded to your s3 bucket.
+- Your build script outputs a folder with all built files, located in the `build_dir`
+- Note: All files in your `build_dir` will be uploaded to your s3 bucket.
 
 Note: This action only deploys STATIC sites to AWS. For server-side rendered (SSR) applications, a different workflow is needed, as Cloudfront is a live server environment. For these applications, tools like Render, AWS Amplify, or AWS EC2 are good alternatives
