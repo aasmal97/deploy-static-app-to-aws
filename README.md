@@ -33,8 +33,8 @@ with:
 - `aws_access_key_id`: An AWS user's or role's access key id. This is needed for AWS authentication.
 - `aws_secret_access_key`: An AWS user's or role's secret key. This is needed for AWS authentication.
 - `cloudfront_distribution_id`: The cloudfront distribution id that needs to be invalidated since it is hosting the S3 bucket
-- `bucket_name`: the S3 bucket name that the react app will be deployed to
-- `app_secrets`: A stringified object that contains react app secrets that will be passed prior to the build step
+- `bucket_name`: the S3 bucket name that the static app will be deployed to
+- `app_secrets`: A stringified object that contains secrets, that will be passed prior to the build step
 - `node_verison`: Node JS version that the app will run in. By default this is set to 16
 - `path_to_app`: This is the relative path from your root, where the app's `package.json` config file is located.
 - `build_dir`: The relative path from the `CURRENT WORKING DIRECTORY (cwd)`, to the build directory. This directory will be uploaded into AWS S3. By default it is `./build`
@@ -50,4 +50,4 @@ Ensure that the following requirements are met.
 - Your build script outputs a folder named `build` where the react app's files are compiled to.
 - Note: All files in your `build` folder will be uploaded to your s3 bucket.
 
-Note: This action only deploy STATIC sites to AWS. For server-side rendered (SSR) applications, a different workflow is needed, as Cloudfront is a live server environment. For these applications, tools like Render, AWS Amplify, or AWS EC2 are good alternatives
+Note: This action only deploys STATIC sites to AWS. For server-side rendered (SSR) applications, a different workflow is needed, as Cloudfront is a live server environment. For these applications, tools like Render, AWS Amplify, or AWS EC2 are good alternatives
