@@ -18,7 +18,7 @@ Below is an example
 
 ```yaml
 name: Deploy To AWS
-uses: aasmal97/deploy-static-app-to-aws@2.0.0
+uses: aasmal97/deploy-static-app-to-aws@v2.0.0
 with:
   aws_region: us-east-1
   aws_access_key_id: ${{ secrets.access_key_id }}
