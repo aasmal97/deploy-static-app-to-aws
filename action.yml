@@ -61,7 +61,7 @@ runs:
         APP_SECRETS: ${{ inputs.app_secrets }}
         DESTINATION_PATH: ${{ inputs.destination_path }}
         PREFIX_FILTER: ${{ inputs.secrets_prefix }}
-        WORKING_DIRECTORY_PATH: ${{ github.workspace }}/${path_to_app}
+        WORKING_DIRECTORY_PATH: ${{ github.workspace }}/${{inputs.path_to_app}}
     - name: Build static site
       shell: bash
       run: |
