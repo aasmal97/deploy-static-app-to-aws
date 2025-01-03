@@ -55,7 +55,7 @@ runs:
       with:
         node-version: ${{ inputs.node_version }}
     - name: Extract React App environment variables
-      uses: aasmal97/create-env-file@v3.1.1
+      uses: aasmal97/create-env-file@v3.1.2
       with:
         ENV_FILE_NAME: ${{ inputs.env_file_name }}
         APP_SECRETS: ${{ inputs.app_secrets }}
