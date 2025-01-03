@@ -40,8 +40,7 @@ with:
 - `build_dir`: The relative path from the `CURRENT WORKING DIRECTORY (cwd)`, to the build directory. This directory will be uploaded into AWS S3. By default it is `./build`
 - `secrets_prefix`: A regex pattern applied to environment variable names, that determines if they are loaded into a `.env` file or not
 - `env_file_name`: The name of the generated `.env` file that will will be generated prior to initiating the build command. By default, it is `.env`
-- `destination_path`: The **ABSOLUTE PATH**, that you want the .env file to be generated in. By default, it is the **nearest** package.json to the current working directory.
-- `working_directory_path`: The **ABSOLUTE PATH** of a custom working directory, for the generation of secrets. By default this is the current working directory. If changed, and `destination_path` is NOT defined, the `destination_path` will be resolved by finding the **nearest** package.json to this working directory.
+- `destination_path`: The **ABSOLUTE PATH**, that you want the .env file to be generated in. By default, it is the **nearest** package.json to the resolved `path_to_app` directory, or if no `package.json` exists, the `path_to_app` directory itself.
 
 # Requirements:
 Ensure that the following requirements are met.

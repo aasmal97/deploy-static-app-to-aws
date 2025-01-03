@@ -12,6 +12,6 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_S3_DEPLOY_USER_SECRET_KEY }}
         cloudfront_distribution_id: ${{ secrets.AWS_APP_DISTRIBUTION_ID }}
         bucket_name: ${{ secrets.AWS_APP_BUCKET_NAME }}
-        react_app_secrets: ${{ toJson(secrets) }}
-        node_verison: 16
+        app_secrets: ${{ toJson(secrets) }}
+        node_verison: 20
         path_to_app: ./test-app
