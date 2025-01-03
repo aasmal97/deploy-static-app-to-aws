@@ -1,4 +1,4 @@
-name: deploy-static-app-to-aws
+name: Deploy Static App to AWS
 author: Arky Asmal
 description: Deploys a static app (SPA, SSG or static pages) to an S3 bucket, and then invalidates the Cloudfront cache for it.
 branding:
