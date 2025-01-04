@@ -1,6 +1,6 @@
 # Deploy Static Site To AWS
 
-Deploys a static app (SPA, SSG or static pages) to an S3 bucket and then invalidates the Cloudfront cache for that bucket, so changes are seen when the bucket is re-deployed.
+Deploys a static app (SPA, SSG or static pages) to an S3 bucket and then invalidates the Cloudfront cache for that bucket, so changes are quickly seen.
 
 This action is useful to deploy:
 
