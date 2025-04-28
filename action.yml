@@ -79,12 +79,17 @@ runs:
       run: |
         cd ${{ inputs.path_to_app }}
         aws s3 sync ${{ inputs.build_dir }} s3://${{ inputs.bucket_name }} --delete
-    - name: Invalidate Cloudfront cache
-      uses: chetan/invalidate-cloudfront-action@v2
-      continue-on-error: true
-      env:
-        DISTRIBUTION: ${{ inputs.cloudfront_distribution_id }}
-        PATHS: "/*"
-        AWS_REGION: ${{ inputs.aws_region }}
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
+    - name: Deploy static site to S3 bucket
+      shell: bash
+      run: |
+        cd ${{ inputs.path_to_app }}
+        aws cloudfront create-invalidation --distribution-id ${{ inputs.cloudfront_distribution_id }} --paths "/*"
+    # - name: Invalidate Cloudfront cache
+    #   uses: chetan/invalidate-cloudfront-action@v2
+    #   continue-on-error: true
+    #   env:
+    #     DISTRIBUTION: ${{ inputs.cloudfront_distribution_id }}
+    #     PATHS: "/*"
+    #     AWS_REGION: ${{ inputs.aws_region }}
+    #     AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_access_key }}
